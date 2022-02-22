@@ -1,0 +1,79 @@
+<p-panel header="Weather data" [toggleable]="true">
+  <form [formGroup]="formGroup">
+    <div class="card">
+      <div class="p-fluid grid">
+        <div class="field col-12 md:col-4">
+          <label for="summary">Summary</label>
+          <p-dropdown id="summary" [options]="summary" formControlName="summary" placeholder="Select a summary"
+            optionLabel="name" optionValue="value">
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="precipType">Precip type</label>
+          <p-dropdown id="precipType" [options]="precipTypes" formControlName="precipType" [showClear]="true"
+            placeholder="Select a precip type" optionLabel="name" optionValue="value">
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="humidity">Humidity</label>
+          <p-inputNumber id="humidity" formControlName="humidity" [min]="0" [maxFractionDigits]="2" [step]="0.01"
+            [showButtons]="true">
+          </p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="windSpeed">Wind speed (Km/h)</label>
+          <p-inputNumber id="windSpeed" mode="decimal" formControlName="windSpeed" [min]="0" [maxFractionDigits]="4"
+            [step]="0.0001" [showButtons]="true"></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="windBearing">Wind bearing (degrees)</label>
+          <p-inputNumber id="windBearing" mode="decimal" formControlName="windBearing" [min]="0" [maxFractionDigits]="2"
+            [step]="0.01" [showButtons]="true"></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="visibility">Visibility (Km)</label>
+          <p-inputNumber id="visibility" mode="decimal" formControlName="visibility" [min]="0" [maxFractionDigits]="4"
+            [step]="0.0001" [showButtons]="true"></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="pressure">Pressure (millibars)</label>
+          <p-inputNumber id="pressure" mode="decimal" formControlName="pressure" [min]="0" [maxFractionDigits]="2"
+            [step]="0.01" [showButtons]="true"></p-inputNumber>
+        </div>
+      </div>
+    </div>
+
+    <p-button (click)="sendRequest()" [disabled]="!formGroup.valid" label="Send"></p-button>
+  </form>
+</p-panel>
+
+<div class="card">
+  <h3>Predictions</h3>
+  <p-table [value]="predictions" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Temperature</th>
+        <th>Summary</th>
+        <th>Precip type</th>
+        <th>Humidity</th>
+        <th>Wind speed (Km/h)</th>
+        <th>Wind bearing (degrees)</th>
+        <th>Visibility (km)</th>
+        <th>Pressure (millibars)</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-prediction>
+      <tr>
+        <td>{{prediction.temperature | number:'1.2-2'}} C°</td>
+        <td>{{prediction.summary}}</td>
+        <td>{{prediction.precipType}}</td>
+        <td>{{prediction.humidity}}</td>
+        <td>{{prediction.windSpeed}}</td>
+        <td>{{prediction.windBearing}}</td>
+        <td>{{prediction.visibility}}</td>
+        <td>{{prediction.pressure}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,64 @@
+<p-panel header="Tour data" [toggleable]="true">
+  <form [formGroup]="formGroup">
+    <div class="card">
+      <div class="p-fluid grid">
+        <div class="field col-12 md:col-4">
+          <label for="vendorId">Vendor ID</label>
+          <p-dropdown id="vendorId" [options]="vendorID" formControlName="vendorId" placeholder="Select a Vendor ID"
+            optionLabel="name" optionValue="value">
+          </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="rateCode">Rate code</label>
+          <p-inputNumber id="rateCode" type="text" formControlName="rateCode" [min]="1" [showButtons]="true">
+          </p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="passengerCount">Passenger count</label>
+          <p-inputNumber id="passengerCount" formControlName="passengerCount" [min]="1" [showButtons]="true">
+          </p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="tripDistance">Trip distance (Km)</label>
+          <p-inputNumber id="tripDistance" mode="decimal" formControlName="tripDistance" [min]="0" [max]="30"
+            [maxFractionDigits]="2" [step]="0.01" [showButtons]="true"></p-inputNumber>
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="paymentType">Payment type</label>
+          <p-dropdown inputId="paymentType" [options]="paymentTypes" formControlName="paymentType"
+            placeholder="Select a Payment type" optionLabel="name" optionValue="value">
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <p-button (click)="sendRequest()" [disabled]="!formGroup.valid" label="Send"></p-button>
+  </form>
+</p-panel>
+
+<div class="card">
+  <h3>Predictions</h3>
+  <p-table [value]="predictions" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10,25,50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Fare amount</th>
+        <th>Vendor ID</th>
+        <th>Rate code</th>
+        <th>Passenger count</th>
+        <th>Trip distance (Km)</th>
+        <th>Payment type</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-prediction>
+      <tr>
+        <td>$ {{prediction.fareAmount | number:'1.2-2'}}</td>
+        <td>{{prediction.vendorId}}</td>
+        <td>{{prediction.rateCode}}</td>
+        <td>{{prediction.passengerCount}}</td>
+        <td>{{prediction.tripDistance}}</td>
+        <td>{{prediction.paymentType}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
